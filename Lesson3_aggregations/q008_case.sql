@@ -8,7 +8,7 @@ order by occurred_at
 
 select account_id,
        occurred_at,
-       total
+       total,
        case when total > 500 then 'Over 500'
             when total > 300 and total <= 500 then '301 - 500'
             when total > 100 and total <= 300 then '101 - 300'
