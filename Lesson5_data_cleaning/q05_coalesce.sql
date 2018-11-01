@@ -68,9 +68,9 @@ ON a.id = o.account_id
 Run the query in 5, but with the coalesce frunction used in questions 2
 through 4.
 
-select count(a.id),
-       coalesce(a.id, o.account_id) as id,
-       coalesce(a.id, o.account_id) as account_id,
+select count(*) from
+  (select coalesce(a.id, o.account_id) as id,
+       coalesce(o.account_id, a.id) as account_id,
        coalesce(o.standard_qty, 0) as standard_qty,
        coalesce(o.gloss_qty, 0) as gloss_qty,
        coalesce(o.poster_qty, 0) as poster_qty,
@@ -79,6 +79,5 @@ select count(a.id),
        coalesce(o.gloss_amt_usd, 0) as gloss_amt_usd,
        coalesce(o.poster_amt_usd, 0) as poster_amt_usd,
        coalesce(o.total_amt_usd, 0) as total_amt_usd
-from accounts as a
-left join orders as o on o.account_id = a.id
-group by 2,3,4,5,6,7,8,9,10,11
+    from accounts as a
+  left join orders as o on o.account_id = a.id) as filled_table
